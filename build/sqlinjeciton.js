@@ -1,5 +1,5 @@
 // This example assumes you're using a Node.js server with a SQL database
-
+// code placed here to trigger sast error
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
