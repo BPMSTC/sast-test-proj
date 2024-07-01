@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitbucket Pipeline Demo - Why Use CI/CD?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>What is CI/CD?</h2>
+<p>CI/CD is a development approach that automates the software delivery process. It involves two key stages:</p>
+<ul>
+    <li><strong>Continuous Integration (CI):</strong> This involves frequently merging code changes from developers into a central repository. The pipeline then automatically performs tasks like:
+        <ul>
+            <li><strong>Linting:</strong> Checking code for style and potential errors.</li>
+            <li><strong>Unit Testing:</strong> Running automated tests to ensure each code segment functions as intended.</li>
+            <li><strong>Building:</strong> Compiling the code into a deployable format.</li>
+        </ul>
+    </li>
+    <li><strong>Continuous Delivery (CD):</strong> This stage focuses on automatically deploying the built code to different environments (testing, staging, production) based on successful completion of CI tasks. This allows for faster delivery of updates and easier rollback if needed.</li>
+</ul>
+
+<h3>A Simple CI/CD Workflow</h3>
+<p>Let's break down a typical CI/CD workflow to understand it better:</p>
+<ol>
+    <li>A developer makes changes to the codebase and pushes the changes to a central repository (e.g., Bitbucket).</li>
+    <li>The CI/CD pipeline is triggered automatically when new code is pushed.</li>
+    <li>The pipeline starts by checking out the latest code from the repository.</li>
+    <li>It then runs the linting process to check for code style and potential errors.</li>
+    <li>If the linting passes, the pipeline moves on to running unit tests to ensure each code segment functions as intended.</li>
+    <li>If the tests pass, the pipeline builds the code into a deployable format (e.g., compiled binaries, Docker images).</li>
+    <li>Once the build is successful, the pipeline deploys the code to a testing or staging environment.</li>
+    <li>If the deployment to the testing environment is successful, the pipeline can be configured to automatically deploy to the production environment.</li>
+</ol>
+<p>This automated workflow ensures that code changes are thoroughly tested and deployed in a consistent and reliable manner, reducing the risk of errors and improving the overall quality of the software.</p>
+
+<h2>Benefits of CI/CD Pipelines</h2>
+<p>Here's why developers love CI/CD pipelines:</p>
+<ul>
+    <li><strong>Faster Releases:</strong> By automating tasks, CI/CD pipelines enable frequent and faster deployments.</li>
+    <li><strong>Improved Quality:</strong> Early detection of errors through automated testing leads to higher quality code.</li>
+    <li><strong>Reduced Risk:</strong> Automated deployments minimize manual errors and ensure consistency.</li>
+    <li><strong>Increased Efficiency:</strong> Developers save time by focusing on writing code instead of repetitive tasks.</li>
+    <li><strong>Better Collaboration:</strong> CI/CD pipelines promote better communication and collaboration within development teams.</li>
+</ul>
+
+<h3>Real-World Application</h3>
+<p>This website serves as a simple example. In a real-world scenario, a Bitbucket Pipeline would be configured to automate these tasks for this website, making the development and deployment process smoother and more efficient.</p>
+<p>For example, whenever a developer pushes new code to the repository, the pipeline would automatically lint the code, run tests, build the website, and deploy it to a staging environment. If everything passes, the pipeline can then deploy the changes to the production environment, ensuring that the website is always up-to-date and functioning correctly.</p>
+<p>As you continue to learn about CI/CD and Bitbucket Pipelines, you'll gain a deeper understanding of how these powerful tools can streamline your development process and help you deliver high-quality software faster.</p>
+
+<script src="script.js"></script>
+</body>
+
+</html>

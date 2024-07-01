@@ -1,0 +1,89 @@
+# Define the Docker image to use for the pipeline.
+# This specifies a pre-made environment with Node.js installed.
+# Node.js 14.15.4 is specified to ensure compatibility with project dependencies.
+image: node:14.15.4
+
+# Define the actions to be performed by the pipeline when code is pushed to the repository.
+# This configuration sets up a series of steps that are executed in a defined order.
+pipelines:
+  default:
+    - step:
+        # This step is named to reflect its purpose: installing dependencies and running tests.
+        # It is the first step in the CI/CD process, preparing the project for build and deployment.
+        name: "Install and Test"
+        # Caches the node_modules directory to speed up installations in subsequent runs.
+        # This cache is reused across builds to reduce build times and bandwidth usage.
+        caches:
+          - node
+        script:
+          - echo "Installing dependencies..."
+          # Forcefully installs all dependencies ensuring that any potential cache-related issues are avoided.
+          # The `--force` flag can help resolve certain conflicts and ensure all packages are installed from scratch.
+          - npm install --force
+          - echo "Running tests..."
+          # Executes the 'test' script defined in package.json, which should run any unit tests.
+          # Typically, this might use a framework like Jest, and this step ensures all tests pass before moving forward.
+          - npm test
+
+    - step:
+        name: "Build and Minify"
+        caches:
+        - node  # Utilize caching for node modules to speed up the build process
+        script:
+        - echo "Forcefully reinstalling all dependencies to ensure a clean and consistent state..."
+        # The --force flag ensures that all dependencies are reinstalled even if they are already present,
+        # helping to resolve any issues with corrupted or improperly linked packages.
+        - npm install --force
+
+        - echo "Listing all installed modules to confirm installations..."
+        # This command lists the entire dependency tree, which is useful for verifying that all expected packages
+        # are installed correctly before proceeding to the build step.
+        - npm list
+
+        - echo "Displaying contents of the node_modules directory..."
+        # Listing the contents of the node_modules directory to visually confirm that all expected packages,
+        # including those that might not be explicitly listed in package.json, are present.
+        - ls -la node_modules/
+
+        - echo "Explicitly installing and verifying mini-css-extract-plugin..."
+        # Reinstalling mini-css-extract-plugin to ensure it's present. This step is crucial because missing this plugin
+        # would cause the Webpack build to fail when it tries to process CSS files.
+        - npm install --save-dev mini-css-extract-plugin
+
+        - echo "Verifying mini-css-extract-plugin installation..."
+        # Lists mini-css-extract-plugin to confirm it's correctly installed in the node_modules directory,
+        # providing a specific check for this critical build dependency.
+        - npm list mini-css-extract-plugin
+
+        - echo "Running build with Webpack..."
+        # Executes the 'build' script from package.json. This script is expected to invoke Webpack,
+        # which will bundle and minify the application's JavaScript and CSS files according to the configurations
+        # specified in webpack.config.js.
+        - npm run build
+
+        - echo "Build and minification complete."
+        # Indicates the end of the build process. If no errors occur, this message confirms that the application
+        # was successfully compiled and minified.
+
+
+    - step:
+        # This step simulates the deployment of the project to a staging environment.
+        name: "Deploy to Staging"
+        script:
+          - echo "Deploying to staging environment..."
+          # Creates a temporary directory that simulates a staging environment.
+          - mkdir -p /tmp/staging/
+          # Copies the build artifacts to the staging directory to simulate deployment.
+          - cp -R build/* /tmp/staging/
+          - echo "Deployment complete. Files are in /tmp/staging/"
+
+    - step:
+        # This final step simulates the release of the project to a production environment.
+        name: "Mock Release to Production"
+        script:
+          - echo "Simulating release to production environment..."
+          # Creates a directory to simulate the production environment.
+          - mkdir -p /tmp/production/
+          # Copies the build artifacts to the production directory to simulate deployment.
+          - cp -R build/* /tmp/production/
+          - echo "Mock deployment complete. Files are in /tmp/production/"
