@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Example</title>
+</head>
+<body>
+    <h1>Enter your name:</h1>
+    <form>
+        <input type="text" id="name" />
+        <button type="button" onclick="displayMessage()">Submit</button>
+    </form>
+    <p id="message"></p>
+
+    <script>
+        function displayMessage() {
+            var name = document.getElementById('name').value;
+            document.getElementById('message').innerHTML = "Hello, " + name;
+        }
+    </script>
+</body>
+</html>
