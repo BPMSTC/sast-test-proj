@@ -1,0 +1,112 @@
+# OWASP ZAP Rules Configuration
+# This file defines which ZAP rules to run during security scans
+# Format: Rule ID, Action (IGNORE, INFO, WARN, FAIL)
+# IGNORE = Skip this rule
+# INFO = Log as information only
+# WARN = Log as warning
+# FAIL = Fail the scan if this rule triggers
+
+# High priority security rules - FAIL on detection
+10021	FAIL	# SQL Injection
+10023	FAIL	# SQL Injection (Blind)
+10024	FAIL	# SQL Injection (Time-based)
+10025	FAIL	# SQL Injection (Union)
+10026	FAIL	# SQL Injection (Error-based)
+10027	FAIL	# SQL Injection (Boolean-based)
+10028	FAIL	# SQL Injection (Time-based Blind)
+10029	FAIL	# SQL Injection (Union-based Blind)
+10030	FAIL	# SQL Injection (Error-based Blind)
+10031	FAIL	# SQL Injection (Boolean-based Blind)
+10032	FAIL	# SQL Injection (Time-based Union)
+10033	FAIL	# SQL Injection (Error-based Union)
+10034	FAIL	# SQL Injection (Boolean-based Union)
+10035	FAIL	# SQL Injection (Time-based Error)
+10036	FAIL	# SQL Injection (Boolean-based Error)
+10037	FAIL	# SQL Injection (Union-based Error)
+10038	FAIL	# SQL Injection (Time-based Boolean)
+10039	FAIL	# SQL Injection (Error-based Boolean)
+10040	FAIL	# SQL Injection (Union-based Boolean)
+
+# Cross-Site Scripting (XSS) rules - FAIL on detection
+10016	FAIL	# Cross Site Scripting (Reflected)
+10017	FAIL	# Cross Site Scripting (Stored)
+10018	FAIL	# Cross Site Scripting (DOM-based)
+10019	FAIL	# Cross Site Scripting (Reflected POST)
+10020	FAIL	# Cross Site Scripting (Stored POST)
+
+# Authentication and session management - WARN
+10003	WARN	# Session ID in URL Rewrite
+10004	WARN	# Session ID in URL
+10005	WARN	# Session ID in URL (POST)
+10006	WARN	# Session ID in URL (GET)
+10007	WARN	# Session ID in URL (Cookie)
+10008	WARN	# Session ID in URL (Header)
+10009	WARN	# Session ID in URL (Body)
+10010	WARN	# Session ID in URL (Query)
+10011	WARN	# Session ID in URL (Fragment)
+10012	WARN	# Session ID in URL (Path)
+10013	WARN	# Session ID in URL (Host)
+10014	WARN	# Session ID in URL (Port)
+10015	WARN	# Session ID in URL (Scheme)
+
+# Information disclosure - INFO
+10001	INFO	# Information Disclosure
+10002	INFO	# Information Disclosure (Debug)
+10041	INFO	# Information Disclosure (Error)
+10042	INFO	# Information Disclosure (Stack Trace)
+10043	INFO	# Information Disclosure (Directory Listing)
+10044	INFO	# Information Disclosure (File Path)
+10045	INFO	# Information Disclosure (Version)
+10046	INFO	# Information Disclosure (Technology)
+10047	INFO	# Information Disclosure (Configuration)
+10048	INFO	# Information Disclosure (Database)
+10049	INFO	# Information Disclosure (Server)
+10050	INFO	# Information Disclosure (Application)
+
+# Input validation - WARN
+10051	WARN	# Input Validation (Missing)
+10052	WARN	# Input Validation (Insufficient)
+10053	WARN	# Input Validation (Incorrect)
+10054	WARN	# Input Validation (Bypass)
+10055	WARN	# Input Validation (Injection)
+10056	WARN	# Input Validation (Encoding)
+10057	WARN	# Input Validation (Length)
+10058	WARN	# Input Validation (Type)
+10059	WARN	# Input Validation (Range)
+10060	WARN	# Input Validation (Format)
+
+# Security headers - WARN
+10061	WARN	# Missing Security Headers
+10062	WARN	# Insecure Security Headers
+10063	WARN	# Missing Content Security Policy
+10064	WARN	# Insecure Content Security Policy
+10065	WARN	# Missing X-Frame-Options
+10066	WARN	# Insecure X-Frame-Options
+10067	WARN	# Missing X-Content-Type-Options
+10068	WARN	# Insecure X-Content-Type-Options
+10069	WARN	# Missing X-XSS-Protection
+10070	WARN	# Insecure X-XSS-Protection
+
+# HTTPS and encryption - WARN
+10071	WARN	# Insecure HTTPS Configuration
+10072	WARN	# Missing HTTPS
+10073	WARN	# Insecure HTTPS Redirect
+10074	WARN	# Insecure HTTPS Cookies
+10075	WARN	# Insecure HTTPS Headers
+10076	WARN	# Insecure HTTPS Content
+10077	WARN	# Insecure HTTPS Forms
+10078	WARN	# Insecure HTTPS Links
+10079	WARN	# Insecure HTTPS Resources
+10080	WARN	# Insecure HTTPS Scripts
+
+# OWASP Top 10 compliance - FAIL for critical, WARN for others
+10081	FAIL	# OWASP A01: Broken Access Control
+10082	FAIL	# OWASP A02: Cryptographic Failures
+10083	FAIL	# OWASP A03: Injection
+10084	FAIL	# OWASP A04: Insecure Design
+10085	FAIL	# OWASP A05: Security Misconfiguration
+10086	WARN	# OWASP A06: Vulnerable Components
+10087	WARN	# OWASP A07: Authentication Failures
+10088	WARN	# OWASP A08: Software Integrity Failures
+10089	WARN	# OWASP A09: Logging Failures
+10090	WARN	# OWASP A10: Server-Side Request Forgery
