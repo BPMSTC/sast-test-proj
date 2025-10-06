@@ -37,8 +37,9 @@ jobs:
           echo ""
           
           echo "=== DEBUGGING: Starting ZAP baseline scan ==="
-          # Fix the double path issue by using the correct working directory
+          # Fix permissions by running as current user
           docker run --rm \
+            --user $(id -u):$(id -g) \
             -v $(pwd):/zap/wrk/:rw \
             --network="host" \
             -w /zap/wrk \
@@ -48,6 +49,7 @@ jobs:
             -r zap-report.html \
             -J zap-report.json \
             -x zap-report.xml \
+            -I \
             -a
           
           echo ""
