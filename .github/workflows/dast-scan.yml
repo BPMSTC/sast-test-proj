@@ -22,33 +22,85 @@ jobs:
           WEB_PID=$!
           echo "WEB_PID=$WEB_PID" >> $GITHUB_ENV
           echo "Web server started on port 3000 with PID $WEB_PID"
-          sleep 5
+          sleep 10
+          
+          # Test the web server
+          echo "Testing web server..."
+          for i in {1..5}; do
+            if curl -f http://localhost:3000 > /dev/null 2>&1; then
+              echo "Web server is responding on attempt $i"
+              break
+            else
+              echo "Web server not ready on attempt $i, waiting..."
+              sleep 2
+            fi
+          done
 
       - name: Start ZAP daemon
         run: |
           # Start ZAP with network access to host
           docker run -u zap -d --network="host" -v $(pwd):/zap/wrk/:rw --name zap ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
+          echo "ZAP daemon started"
 
       - name: Wait for ZAP to start
-        run: sleep 15
-
-      - name: Test web server accessibility
         run: |
-          echo "Testing if web server is accessible..."
-          curl -I http://localhost:3000 || echo "Web server not accessible"
-          echo "Checking if ZAP can reach the web server..."
-          docker exec zap curl -I http://localhost:3000 || echo "ZAP cannot reach web server"
+          echo "Waiting for ZAP to fully initialize..."
+          sleep 20
+          
+          # Test ZAP API
+          for i in {1..10}; do
+            if curl -s http://localhost:8080/JSON/core/view/version/ > /dev/null 2>&1; then
+              echo "ZAP API is responding on attempt $i"
+              break
+            else
+              echo "ZAP API not ready on attempt $i, waiting..."
+              sleep 3
+            fi
+          done
+
+      - name: Test connectivity
+        run: |
+          echo "=== Testing web server accessibility ==="
+          curl -v http://localhost:3000 || echo "Web server test failed"
+          
+          echo "=== Testing ZAP API ==="
+          curl -v http://localhost:8080/JSON/core/view/version/ || echo "ZAP API test failed"
+          
+          echo "=== Testing ZAP to web server connectivity ==="
+          docker exec zap curl -v http://localhost:3000 || echo "ZAP to web server test failed"
+          
+          echo "=== Checking running processes ==="
+          ps aux | grep -E "(python|http)" || echo "No web server processes found"
+          
+          echo "=== Checking open ports ==="
+          netstat -tlnp | grep -E ":(3000|8080)" || echo "Ports 3000 and 8080 not found"
 
       - name: Run ZAP Baseline Scan
         run: |
           echo "Starting ZAP baseline scan..."
-          # Run ZAP baseline scan with verbose output
-          docker exec zap zap-baseline.py -t http://localhost:3000 -r /zap/wrk/testreport.html -J /zap/wrk/testreport.json -x /zap/wrk/testreport.xml -v || echo "ZAP scan failed"
-          echo "ZAP scan command completed"
+          # Try multiple approaches to get ZAP working
+          
+          # Method 1: Standard baseline scan
+          echo "=== Attempting standard baseline scan ==="
+          docker exec zap zap-baseline.py -t http://localhost:3000 -r /zap/wrk/testreport.html -J /zap/wrk/testreport.json -x /zap/wrk/testreport.xml -v || echo "Standard scan failed"
+          
+          # Method 2: Try with different target URL
+          echo "=== Attempting scan with 127.0.0.1 ==="
+          docker exec zap zap-baseline.py -t http://127.0.0.1:3000 -r /zap/wrk/testreport2.html -J /zap/wrk/testreport2.json -x /zap/wrk/testreport2.xml -v || echo "127.0.0.1 scan failed"
+          
+          # Method 3: Try with host.docker.internal (if available)
+          echo "=== Attempting scan with host.docker.internal ==="
+          docker exec zap zap-baseline.py -t http://host.docker.internal:3000 -r /zap/wrk/testreport3.html -J /zap/wrk/testreport3.json -x /zap/wrk/testreport3.xml -v || echo "host.docker.internal scan failed"
+          
+          echo "ZAP scan attempts completed"
           
           # Check what files were actually created
-          echo "Files created in /zap/wrk/:"
+          echo "=== Files created in /zap/wrk/ ==="
           docker exec zap ls -la /zap/wrk/ | grep -E "(testreport|\.html|\.json|\.xml)" || echo "No report files found"
+          
+          # Check ZAP logs for errors
+          echo "=== ZAP logs ==="
+          docker logs zap | tail -20 || echo "Could not retrieve ZAP logs"
 
       - name: Stop web server
         run: |
@@ -67,14 +119,26 @@ jobs:
 
       - name: Copy reports from container
         run: |
-          # Copy all report files from container
-          docker cp zap:/zap/wrk/testreport.html ./testreport.html || echo "HTML report not found"
-          docker cp zap:/zap/wrk/testreport.json ./testreport.json || echo "JSON report not found"
-          docker cp zap:/zap/wrk/testreport.xml ./testreport.xml || echo "XML report not found"
+          # Copy all possible report files from container
+          echo "=== Copying report files ==="
+          
+          # Try to copy from different scan attempts
+          for i in "" "2" "3"; do
+            echo "Attempting to copy testreport${i} files..."
+            docker cp zap:/zap/wrk/testreport${i}.html ./testreport${i}.html || echo "testreport${i}.html not found"
+            docker cp zap:/zap/wrk/testreport${i}.json ./testreport${i}.json || echo "testreport${i}.json not found"
+            docker cp zap:/zap/wrk/testreport${i}.xml ./testreport${i}.xml || echo "testreport${i}.xml not found"
+          done
           
           # List what we actually have
-          echo "Available report files:"
-          ls -la testreport.* || echo "No report files found"
+          echo "=== Available report files ==="
+          ls -la testreport* || echo "No report files found"
+          
+          # If we have any reports, use the first one as the main report
+          if ls testreport*.html 1> /dev/null 2>&1; then
+            echo "Found report files, using the first one as main report"
+            cp testreport*.html testreport.html 2>/dev/null || true
+          fi
 
       - name: Create fallback report if ZAP failed
         run: |
