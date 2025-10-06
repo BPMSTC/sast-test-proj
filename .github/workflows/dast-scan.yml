@@ -16,10 +16,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start ZAP daemon
-        run: docker run -u zap -d -p 8080:8080 -v $(pwd):/zap/wrk/:rw --name zap owasp/zap2docker-stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
+        run: docker run -u zap -d -p 8080:8080 -v $(pwd):/zap/wrk/:rw --name zap ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
 
       - name: Wait for ZAP to start
-        run: sleep 10
+        run: sleep 15
 
       - name: Run ZAP Baseline Scan
         run: docker exec zap zap-baseline.py -t http://localhost:8080 -r testreport.html || true
