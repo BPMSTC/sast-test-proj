@@ -31,21 +31,40 @@ jobs:
 
       - name: Run ZAP Baseline Scan
         run: |
-          echo "Starting ZAP baseline scan..."
+          echo "=== DEBUGGING: Current directory structure ==="
+          pwd
+          ls -la
+          echo ""
+          
+          echo "=== DEBUGGING: Starting ZAP baseline scan ==="
+          # Try with absolute paths
           docker run --rm \
             -v $(pwd):/zap/wrk/:rw \
             --network="host" \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://localhost:3000 \
-            -r zap-report.html \
-            -J zap-report.json \
-            -x zap-report.xml \
+            -r /zap/wrk/zap-report.html \
+            -J /zap/wrk/zap-report.json \
+            -x /zap/wrk/zap-report.xml \
             -a
           
-          echo "ZAP scan completed successfully!"
-          echo "Report files created:"
-          ls -la zap-report.* || echo "No report files found"
+          echo ""
+          echo "=== DEBUGGING: After ZAP scan - directory structure ==="
+          pwd
+          ls -la
+          echo ""
+          
+          echo "=== DEBUGGING: Looking for report files ==="
+          find . -name "*report*" -type f 2>/dev/null || echo "No report files found with 'find'"
+          ls -la zap-report.* 2>/dev/null || echo "No zap-report.* files found"
+          ls -la *.html 2>/dev/null || echo "No HTML files found"
+          ls -la *.json 2>/dev/null || echo "No JSON files found"
+          ls -la *.xml 2>/dev/null || echo "No XML files found"
+          
+          echo ""
+          echo "=== DEBUGGING: Inside Docker container (if it still exists) ==="
+          docker run --rm -v $(pwd):/zap/wrk/:rw ghcr.io/zaproxy/zaproxy:stable ls -la /zap/wrk/ || echo "Could not check container files"
 
       - name: Upload ZAP reports
         uses: actions/upload-artifact@v4
