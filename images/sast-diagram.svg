@@ -1,0 +1,92 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4ecdc4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50">SAST Security Analysis Pipeline</text>
+  
+  <!-- Pipeline Steps -->
+  <g id="pipeline">
+    <!-- Step 1: Code Commit -->
+    <rect x="50" y="80" width="120" height="60" rx="10" fill="url(#grad1)" stroke="#333" stroke-width="2"/>
+    <text x="110" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white" font-weight="bold">Code Commit</text>
+    <text x="110" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Developer pushes code</text>
+    
+    <!-- Arrow 1 -->
+    <path d="M 180 110 L 220 110" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+    
+    <!-- Step 2: SAST Analysis -->
+    <rect x="240" y="80" width="120" height="60" rx="10" fill="url(#grad2)" stroke="#333" stroke-width="2"/>
+    <text x="300" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white" font-weight="bold">SAST Analysis</text>
+    <text x="300" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Security scanning</text>
+    
+    <!-- Arrow 2 -->
+    <path d="M 370 110 L 410 110" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+    
+    <!-- Step 3: Security Gate -->
+    <rect x="430" y="80" width="120" height="60" rx="10" fill="#f39c12" stroke="#333" stroke-width="2"/>
+    <text x="490" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white" font-weight="bold">Security Gate</text>
+    <text x="490" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Vulnerability check</text>
+    
+    <!-- Arrow 3 -->
+    <path d="M 560 110 L 600 110" stroke="#333" stroke-width="3" marker-end="url(#arrowhead)"/>
+    
+    <!-- Step 4: Deploy -->
+    <rect x="620" y="80" width="120" height="60" rx="10" fill="#27ae60" stroke="#333" stroke-width="2"/>
+    <text x="680" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white" font-weight="bold">Deploy</text>
+    <text x="680" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Secure deployment</text>
+  </g>
+  
+  <!-- Security Checks -->
+  <g id="security-checks">
+    <text x="50" y="200" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Security Checks Performed:</text>
+    
+    <circle cx="80" cy="230" r="8" fill="#e74c3c"/>
+    <text x="100" y="235" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">SQL Injection Detection</text>
+    
+    <circle cx="80" cy="250" r="8" fill="#f39c12"/>
+    <text x="100" y="255" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">XSS Vulnerability Scan</text>
+    
+    <circle cx="80" cy="270" r="8" fill="#e67e22"/>
+    <text x="100" y="275" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">Authentication Bypass</text>
+    
+    <circle cx="80" cy="290" r="8" fill="#3498db"/>
+    <text x="100" y="295" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">Input Validation</text>
+    
+    <circle cx="80" cy="310" r="8" fill="#9b59b6"/>
+    <text x="100" y="315" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">Dependency Scan</text>
+    
+    <circle cx="80" cy="330" r="8" fill="#1abc9c"/>
+    <text x="100" y="335" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">OWASP Compliance</text>
+  </g>
+  
+  <!-- Benefits -->
+  <g id="benefits">
+    <text x="450" y="200" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">Key Benefits:</text>
+    
+    <text x="450" y="230" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">✓ Early vulnerability detection</text>
+    <text x="450" y="250" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">✓ Automated security validation</text>
+    <text x="450" y="270" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">✓ Compliance assurance</text>
+    <text x="450" y="290" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">✓ Reduced security risks</text>
+    <text x="450" y="310" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">✓ Faster secure deployments</text>
+    <text x="450" y="330" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50">✓ Continuous security monitoring</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

@@ -3,53 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bitbucket Pipeline Demo - Why Use CI/CD?</title>
+  <title>SAST Security Analysis Pipeline - Automated Code Security Testing</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>What is CI/CD?</h2>
-<p>CI/CD is a development approach that automates the software delivery process. It involves two key stages:</p>
+    <!-- Floating security icons -->
+    <div class="floating-icon" id="floating-shield">🛡️</div>
+    <div class="floating-icon" id="floating-lock">🔒</div>
+    <div class="floating-icon" id="floating-code">💻</div>
+
+    <div class="container">
+    <h1>SAST Security Analysis Pipeline</h1>
+    
+    <div class="analysis-card">
+        <h2>🔍 What is SAST?</h2>
+        <p><strong>Static Application Security Testing (SAST)</strong> is a security testing methodology that analyzes source code, bytecode, or binary code for security vulnerabilities without executing the program. It's like having a security expert review your code 24/7!</p>
+        
+        <div class="security-badge">Vulnerability Detection</div>
+        <div class="security-badge">Code Quality</div>
+        <div class="security-badge">Security Standards</div>
+        <div class="security-badge">Automated Scanning</div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <img src="images/sast-diagram.svg" alt="SAST Pipeline Diagram" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+        </div>
+    </div>
+
+    <h2>🛡️ Why SAST in CI/CD Pipelines?</h2>
+<p>Integrating SAST into CI/CD pipelines provides <strong>continuous security monitoring</strong> throughout the development lifecycle. Here's how it works:</p>
 <ul>
-    <li><strong>Continuous Integration (CI):</strong> This involves frequently merging code changes from developers into a central repository. The pipeline then automatically performs tasks like:
+    <li><strong>🔍 Automated Security Scanning:</strong> Every code commit triggers SAST analysis to detect vulnerabilities before they reach production
         <ul>
-            <li><strong>Linting:</strong> Checking code for style and potential errors.</li>
-            <li><strong>Unit Testing:</strong> Running automated tests to ensure each code segment functions as intended.</li>
-            <li><strong>Building:</strong> Compiling the code into a deployable format.</li>
+            <li><strong>Code Quality Checks:</strong> Identifies security anti-patterns and coding errors</li>
+            <li><strong>Vulnerability Detection:</strong> Finds SQL injection, XSS, and other security flaws</li>
+            <li><strong>Compliance Validation:</strong> Ensures code meets security standards (OWASP, PCI-DSS)</li>
+            <li><strong>Dependency Scanning:</strong> Checks for vulnerable third-party libraries</li>
         </ul>
     </li>
-    <li><strong>Continuous Delivery (CD):</strong> This stage focuses on automatically deploying the built code to different environments (testing, staging, production) based on successful completion of CI tasks. This allows for faster delivery of updates and easier rollback if needed.</li>
+    <li><strong>🚀 Secure Deployment:</strong> Only code that passes security checks gets deployed, preventing vulnerable code from reaching production</li>
 </ul>
 
-<h3>A Simple CI/CD Workflow</h3>
-<p>Let's break down a typical CI/CD workflow to understand it better:</p>
+<div class="note">
+    <p><strong>💡 Pro Tip:</strong> SAST tools can detect up to 85% of security vulnerabilities before they become production issues, saving time and reducing security risks!</p>
+</div>
+
+<h3>🔧 SAST-Enhanced CI/CD Workflow</h3>
+<p>Here's how our security-focused pipeline works with SAST integration:</p>
 <ol>
-    <li>A developer makes changes to the codebase and pushes the changes to a central repository (e.g., Bitbucket).</li>
-    <li>The CI/CD pipeline is triggered automatically when new code is pushed.</li>
-    <li>The pipeline starts by checking out the latest code from the repository.</li>
-    <li>It then runs the linting process to check for code style and potential errors.</li>
-    <li>If the linting passes, the pipeline moves on to running unit tests to ensure each code segment functions as intended.</li>
-    <li>If the tests pass, the pipeline builds the code into a deployable format (e.g., compiled binaries, Docker images).</li>
-    <li>Once the build is successful, the pipeline deploys the code to a testing or staging environment.</li>
-    <li>If the deployment to the testing environment is successful, the pipeline can be configured to automatically deploy to the production environment.</li>
+    <li><strong>📝 Code Commit:</strong> A developer pushes code changes to the repository</li>
+    <li><strong>🚀 Pipeline Trigger:</strong> CI/CD pipeline automatically starts (or manually triggered)</li>
+    <li><strong>📦 Dependency Check:</strong> Install and verify all project dependencies</li>
+    <li><strong>🧪 Unit Testing:</strong> Run automated tests to ensure functionality</li>
+    <li><strong>🔍 SAST Analysis:</strong> <span class="code">Security scanning begins</span>
+        <ul>
+            <li>Scan source code for vulnerabilities</li>
+            <li>Check for security anti-patterns</li>
+            <li>Validate against OWASP Top 10</li>
+            <li>Analyze dependencies for known vulnerabilities</li>
+        </ul>
+    </li>
+    <li><strong>✅ Security Gate:</strong> Only proceed if no critical vulnerabilities found</li>
+    <li><strong>🏗️ Build Process:</strong> Compile and bundle the secure code</li>
+    <li><strong>🚀 Deploy:</strong> Deploy to staging, then production environments</li>
 </ol>
-<p>This automated workflow ensures that code changes are thoroughly tested and deployed in a consistent and reliable manner, reducing the risk of errors and improving the overall quality of the software.</p>
 
-<h2>Benefits of CI/CD Pipelines</h2>
-<p>Here's why developers love CI/CD pipelines:</p>
+<div class="analysis-card">
+    <h3>🛡️ Security Benefits</h3>
+    <p>This automated workflow ensures that <strong>every code change is security-validated</strong> before reaching production, significantly reducing security risks and improving overall code quality.</p>
+</div>
+
+<h2>🎯 Benefits of SAST-Enhanced CI/CD Pipelines</h2>
+<p>Here's why security-focused pipelines are essential for modern development:</p>
 <ul>
-    <li><strong>Faster Releases:</strong> By automating tasks, CI/CD pipelines enable frequent and faster deployments.</li>
-    <li><strong>Improved Quality:</strong> Early detection of errors through automated testing leads to higher quality code.</li>
-    <li><strong>Reduced Risk:</strong> Automated deployments minimize manual errors and ensure consistency.</li>
-    <li><strong>Increased Efficiency:</strong> Developers save time by focusing on writing code instead of repetitive tasks.</li>
-    <li><strong>Better Collaboration:</strong> CI/CD pipelines promote better communication and collaboration within development teams.</li>
+    <li><strong>🔒 Enhanced Security:</strong> Continuous security scanning catches vulnerabilities before they reach production</li>
+    <li><strong>⚡ Faster Secure Releases:</strong> Automated security validation enables rapid, safe deployments</li>
+    <li><strong>💰 Cost Reduction:</strong> Early vulnerability detection is 100x cheaper than fixing production issues</li>
+    <li><strong>🛡️ Compliance Assurance:</strong> Automated compliance checks ensure regulatory requirements are met</li>
+    <li><strong>👥 Team Confidence:</strong> Developers can code with confidence knowing security is automated</li>
+    <li><strong>📊 Security Metrics:</strong> Continuous visibility into security posture and improvement trends</li>
 </ul>
 
-<h3>Real-World Application</h3>
-<p>This website serves as a simple example. In a real-world scenario, a Bitbucket Pipeline would be configured to automate these tasks for this website, making the development and deployment process smoother and more efficient.</p>
-<p>For example, whenever a developer pushes new code to the repository, the pipeline would automatically lint the code, run tests, build the website, and deploy it to a staging environment. If everything passes, the pipeline can then deploy the changes to the production environment, ensuring that the website is always up-to-date and functioning correctly.</p>
-<p>As you continue to learn about CI/CD and Bitbucket Pipelines, you'll gain a deeper understanding of how these powerful tools can streamline your development process and help you deliver high-quality software faster.</p>
+<div class="analysis-card">
+    <h3>📈 Real-World Impact</h3>
+    <p>Organizations using SAST in CI/CD pipelines report:</p>
+    <ul>
+        <li>70% reduction in security vulnerabilities</li>
+        <li>50% faster security issue resolution</li>
+        <li>90% improvement in compliance scores</li>
+    </ul>
+</div>
+
+<h3>🚀 Interactive Demo</h3>
+<p>This website demonstrates a <strong>SAST-enhanced CI/CD pipeline</strong> in action. Try the interactive elements below to see how security analysis works:</p>
+
+<div class="analysis-card">
+    <h4>🔍 Security Analysis Simulator</h4>
+    <p>Click the button below to simulate a SAST security scan:</p>
+    <button id="scanButton" class="security-badge" style="font-size: 1.2em; padding: 15px 30px; cursor: pointer;">
+        🔍 Start Security Scan
+    </button>
+    <div id="scanResults" style="margin-top: 20px; display: none;">
+        <h4>📊 Scan Results:</h4>
+        <ul id="scanList"></ul>
+    </div>
+</div>
+
+<div class="note">
+    <p><strong>🎓 Learning Path:</strong> This project teaches you how to integrate security testing into your development workflow, making your applications more secure from day one!</p>
+</div>
+
+<h3>📚 Next Steps</h3>
+<p>Ready to implement SAST in your own projects? Here's what you can do:</p>
+<ul>
+    <li><strong>Explore the Pipeline:</strong> Check out the <span class="code">bitbucket-pipelines.yml</span> file</li>
+    <li><strong>Run Tests:</strong> Execute <span class="code">npm test</span> to see security tests in action</li>
+    <li><strong>Build the Project:</strong> Run <span class="code">npm run build</span> to see the build process</li>
+    <li><strong>Study the Code:</strong> Examine how security checks are integrated</li>
+</ul>
 
 <script src="script.js"></script>
+</div>
 </body>
-
 </html>
