@@ -15,17 +15,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Start web server
+        run: |
+          # Start a simple web server to serve the application
+          python3 -m http.server 3000 &
+          WEB_PID=$!
+          echo "WEB_PID=$WEB_PID" >> $GITHUB_ENV
+          echo "Web server started on port 3000 with PID $WEB_PID"
+          sleep 5
+
       - name: Start ZAP daemon
-        run: docker run -u zap -d -p 8080:8080 -v $(pwd):/zap/wrk/:rw --name zap ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
+        run: |
+          # Start ZAP with network access to host
+          docker run -u zap -d --network="host" -v $(pwd):/zap/wrk/:rw --name zap ghcr.io/zaproxy/zaproxy:stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
 
       - name: Wait for ZAP to start
         run: sleep 15
 
       - name: Run ZAP Baseline Scan
         run: |
-          # Run ZAP baseline scan with multiple report formats
-          docker exec zap zap-baseline.py -t http://localhost:8080 -r /zap/wrk/testreport.html -J /zap/wrk/testreport.json -x /zap/wrk/testreport.xml || true
+          # Run ZAP baseline scan against the actual web application
+          docker exec zap zap-baseline.py -t http://localhost:3000 -r /zap/wrk/testreport.html -J /zap/wrk/testreport.json -x /zap/wrk/testreport.xml || true
           echo "ZAP scan completed"
+
+      - name: Stop web server
+        run: |
+          # Stop the web server
+          if [ ! -z "$WEB_PID" ]; then
+            kill $WEB_PID || true
+            echo "Web server stopped"
+          fi
 
       - name: List files in working directory
         run: |
