@@ -13,6 +13,11 @@ jobs:
   # Local ZAP scan with modern approach
   zap_scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
