@@ -22,10 +22,32 @@ jobs:
         run: sleep 15
 
       - name: Run ZAP Baseline Scan
-        run: docker exec zap zap-baseline.py -t http://localhost:8080 -r testreport.html || true
+        run: |
+          # Run ZAP baseline scan with multiple report formats
+          docker exec zap zap-baseline.py -t http://localhost:8080 -r /zap/wrk/testreport.html -J /zap/wrk/testreport.json -x /zap/wrk/testreport.xml || true
+          echo "ZAP scan completed"
 
-      - name: Upload ZAP Report
+      - name: List files in working directory
+        run: |
+          echo "Files in current directory:"
+          ls -la
+          echo "Files in /zap/wrk inside container:"
+          docker exec zap ls -la /zap/wrk/
+
+      - name: Copy reports from container
+        run: |
+          # Copy all report files from container
+          docker cp zap:/zap/wrk/testreport.html ./testreport.html || echo "HTML report not found"
+          docker cp zap:/zap/wrk/testreport.json ./testreport.json || echo "JSON report not found"
+          docker cp zap:/zap/wrk/testreport.xml ./testreport.xml || echo "XML report not found"
+          
+          # List what we actually have
+          echo "Available report files:"
+          ls -la testreport.* || echo "No report files found"
+
+      - name: Upload ZAP Reports
         uses: actions/upload-artifact@v4
         with:
-          name: zap-report
-          path: testreport.html
+          name: zap-reports
+          path: testreport.*
+          if-no-files-found: warn
