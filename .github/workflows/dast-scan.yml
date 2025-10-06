@@ -38,9 +38,9 @@ jobs:
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://localhost:3000 \
-            -r /zap/wrk/zap-report.html \
-            -J /zap/wrk/zap-report.json \
-            -x /zap/wrk/zap-report.xml \
+            -r zap-report.html \
+            -J zap-report.json \
+            -x zap-report.xml \
             -a
           
           echo "ZAP scan completed successfully!"
