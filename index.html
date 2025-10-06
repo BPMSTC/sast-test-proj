@@ -122,6 +122,26 @@
 </ul>
 
 <script src="script.js"></script>
+
+        <footer class="site-footer" role="contentinfo">
+            <div id="datetime" aria-live="polite" style="text-align:center; padding: 12px 0; color: #666; font-size: 0.95rem;"></div>
+        </footer>
+
+        <script>
+            (function () {
+                function updateDateTime() {
+                    var el = document.getElementById('datetime');
+                    if (!el) return;
+                    var now = new Date();
+                    // Use locale string for human-friendly formatting
+                    el.textContent = now.toLocaleString();
+                }
+                // Initialize and update every second
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
+            })();
+        </script>
+
 </div>
 </body>
 </html>
