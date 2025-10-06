@@ -37,16 +37,17 @@ jobs:
           echo ""
           
           echo "=== DEBUGGING: Starting ZAP baseline scan ==="
-          # Try with absolute paths
+          # Fix the double path issue by using the correct working directory
           docker run --rm \
             -v $(pwd):/zap/wrk/:rw \
             --network="host" \
+            -w /zap/wrk \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://localhost:3000 \
-            -r /zap/wrk/zap-report.html \
-            -J /zap/wrk/zap-report.json \
-            -x /zap/wrk/zap-report.xml \
+            -r zap-report.html \
+            -J zap-report.json \
+            -x zap-report.xml \
             -a
           
           echo ""
