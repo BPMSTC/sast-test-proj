@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Start ZAP daemon
         run: docker run -u zap -d -p 8080:8080 -v $(pwd):/zap/wrk/:rw --name zap owasp/zap2docker-stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.disablekey=true
@@ -25,7 +25,7 @@ jobs:
         run: docker exec zap zap-baseline.py -t http://localhost:8080 -r testreport.html || true
 
       - name: Upload ZAP Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: zap-report
           path: testreport.html
