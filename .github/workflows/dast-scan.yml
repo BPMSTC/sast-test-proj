@@ -39,18 +39,21 @@ jobs:
           # Create directory for ZAP reports with proper permissions
           mkdir -p zap-reports
           chmod 777 zap-reports
+          # Make current directory writable for ZAP container
+          chmod -R 777 .
           
           echo "=== DEBUGGING: Starting ZAP baseline scan ==="
           # Run ZAP without --user flag, mount current directory
+          # Reports must be written to /zap/wrk/ to appear in mounted directory
           docker run --rm \
             -v $(pwd):/zap/wrk/:rw \
             --network="host" \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://localhost:3000 \
-            -r zap-report.html \
-            -J zap-report.json \
-            -x zap-report.xml \
+            -r /zap/wrk/zap-report.html \
+            -J /zap/wrk/zap-report.json \
+            -x /zap/wrk/zap-report.xml \
             -I \
             -a
           
