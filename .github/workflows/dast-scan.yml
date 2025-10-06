@@ -36,13 +36,15 @@ jobs:
           ls -la
           echo ""
           
+          # Create directory for ZAP reports with proper permissions
+          mkdir -p zap-reports
+          chmod 777 zap-reports
+          
           echo "=== DEBUGGING: Starting ZAP baseline scan ==="
-          # Fix permissions by running as current user
+          # Run ZAP without --user flag, mount current directory
           docker run --rm \
-            --user $(id -u):$(id -g) \
             -v $(pwd):/zap/wrk/:rw \
             --network="host" \
-            -w /zap/wrk \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://localhost:3000 \
