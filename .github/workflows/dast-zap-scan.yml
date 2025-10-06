@@ -1,4 +1,4 @@
-name: SAST Security Analysis with OWASP ZAP
+name: DAST Security Analysis with OWASP ZAP
 
 on:
   push:
