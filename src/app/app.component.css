@@ -1,0 +1,30 @@
+.container {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 2rem;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2 {
+  color: #2f3b53;
+}
+
+button {
+  background: #1f6feb;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+}
+
+.results {
+  margin-top: 1rem;
+}
+
+.warn {
+  color: #b25f00;
+  font-weight: 700;
+}

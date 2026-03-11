@@ -1,45 +1,94 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# Angular 21 SAST/DAST Demo
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+This repository is a hands-on **Application Security (AppSec) demo** for:
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+- **Software developers** learning how to ship secure code in CI/CD
+- **Cybersecurity specialists** validating security controls with automated pipelines
 
----
+The front-end is now built with **Angular 21**, and the repository keeps both **SAST** and **DAST** workflows active.
 
-## Edit a file
+## What this project demonstrates
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+- Angular 21 app development and production builds
+- Security-focused CI/CD pipeline stages
+- SAST checks (dependency scan, lint/static analysis, unit tests)
+- DAST checks with OWASP ZAP against a running application
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+## Tech stack
 
----
+- Angular 21 (`@angular/core` 21.x)
+- TypeScript 5.9
+- Jest for Node-side unit tests used in security pipeline demos
+- GitHub Actions + Bitbucket Pipelines for CI/CD automation
 
-## Create a file
+## Getting started
 
-Next, you’ll add a new file to this repository.
+### 1) Install dependencies
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+```bash
+npm install --force
+```
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+### 2) Run the Angular app locally
 
----
+```bash
+npm start
+```
 
-## Clone a repository
+The app runs on `http://localhost:3000`.
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
+### 3) Run tests
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+```bash
+npm test
+```
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+### 4) Build production artifacts
+
+```bash
+npm run build
+```
+
+Build output is written to `build/` for downstream deploy and scan steps.
+
+## Security workflows
+
+### SAST workflow
+
+- **GitHub Actions:** `.github/workflows/sast-security-scan.yml`
+  - Installs dependencies
+  - Runs dependency vulnerability checks (`npm audit`)
+  - Runs ESLint security rules
+  - Runs Snyk scan (when token is configured)
+
+- **Bitbucket custom pipeline:** `security-scan`
+  - Runs tests/build
+  - Runs `npm audit`
+
+### DAST workflow
+
+- **GitHub Actions:** `.github/workflows/dast-zap-scan.yml`
+  - Installs dependencies
+  - Starts Angular server (`npm start`)
+  - Executes OWASP ZAP baseline scan against `http://localhost:3000`
+
+- **Bitbucket custom pipeline:** `dast-zap-scan`
+  - Starts local HTTP target
+  - Runs OWASP ZAP baseline container
+
+## Audience-specific usage
+
+### For developers
+
+- Use this repo to practice secure coding and CI gates before deploy.
+- Modify the app and observe how SAST and DAST jobs respond.
+
+### For cybersecurity specialists
+
+- Use this repo to validate scanner integration and report quality.
+- Tune risk thresholds and security gates to match policy requirements.
+
+## Notes
+
+- This is an educational demo and intentionally keeps workflows readable.
+- You can extend the security stages with SBOM generation, SARIF upload, policy checks, and secrets scanning.
