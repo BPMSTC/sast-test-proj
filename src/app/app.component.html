@@ -1,0 +1,26 @@
+<main class="container">
+  <h1>{{ title }}</h1>
+  <p>
+    This demo application is built with Angular 21 and is intended for software developers and cybersecurity specialists
+    who want to explore SAST/DAST workflows in CI/CD.
+  </p>
+
+  <section>
+    <h2>Security Workflow</h2>
+    <ul>
+      <li><strong>SAST:</strong> Dependency, lint, and static code checks run in CI.</li>
+      <li><strong>DAST:</strong> OWASP ZAP baseline scan runs against the served app.</li>
+      <li><strong>Goal:</strong> Demonstrate secure delivery gates with practical automation.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Interactive Scan Simulator</h2>
+    <button type="button" (click)="runScan()">Run SAST Simulation</button>
+    <ul *ngIf="scanResults.length" class="results">
+      <li *ngFor="let result of scanResults">
+        {{ result.check }} — <span [class.warn]="result.status === 'WARN'">{{ result.status }}</span>
+      </li>
+    </ul>
+  </section>
+</main>

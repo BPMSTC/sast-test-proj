@@ -23,11 +23,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Start web server
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install --force
+
+      - name: Start Angular web server
         run: |
-          python3 -m http.server 3000 &
-          echo "Web server started on port 3000"
-          sleep 5
+          npm start &
+          echo "Angular dev server started on port 3000"
+          sleep 20
 
       - name: Run ZAP Baseline Scan
         run: |
